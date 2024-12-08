@@ -59,11 +59,12 @@ http://127.0.0.1:5000/
 # File Structure
 ```bash
 Insert-Builder/
-├── __Pycache__
-├── Templates
-  ├── homepage.html       # HTML template for the user interface
-├── main.py             # Entry point for the Flask application
-├── views.py            # Contains routes and business logic
+├── src
+  ├── __Pycache__
+  ├── Templates
+    ├── homepage.html       # HTML template for the user interface
+  ├── main.py             # Entry point for the Flask application
+  ├── views.py            # Contains routes and business logic
 ```
 
 # Example Workflow
