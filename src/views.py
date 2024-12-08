@@ -1,6 +1,7 @@
 from main import app
 from flask import render_template, request, send_file
 import pandas as pd
+import os
 
 # Route for the homepage
 @app.route("/")
@@ -30,9 +31,9 @@ def invite_archive():
     try:
         # Read the file based on the selected type
         if archive_type == "excel":
-            df = pd.read_excel(file)  # Process as Excel
+            df = pd.read_excel(file) 
         elif archive_type == "csv":
-            df = pd.read_csv(file)  # Process as CSV
+            df = pd.read_csv(file)  
         else:
             return "Unsupported file type selected."
     except Exception as e:
@@ -44,19 +45,19 @@ def invite_archive():
 
     # Loop through each row in the DataFrame
     for _, row in df.iterrows():
-        values = []  # List to hold the values for the current row
+        values = []  
         
         # Process each value in the row
         for value in row:
             if isinstance(value, str):
                 # Escape single quotes for SQL strings
                 value = value.replace("'", "''")
-                values.append(f"'{value}'")  # Wrap string values in single quotes
+                values.append(f"'{value}'")  
             elif pd.isnull(value):
                 # Replace NaN values with NULL for SQL
                 values.append("NULL")
             else:
-                # Convert other data types to string
+                
                 values.append(str(value))
 
         # Create the SQL INSERT statement for the current row
@@ -64,9 +65,13 @@ def invite_archive():
         inserts.append(insert)
 
     # Write all INSERT statements to a file
-    output_file = "inserts.sql"
+    output_file = os.path.join(os.path.dirname(__file__), 'inserts.sql')
     with open(output_file, 'w', encoding="utf-8") as f:
         f.write("\n".join(inserts))
+
+    # Verify that the file was created
+    if not os.path.exists(output_file):
+        return "Erro: O arquivo de saída não foi gerado."
 
     # Send the generated SQL file as a downloadable response
     return send_file(
