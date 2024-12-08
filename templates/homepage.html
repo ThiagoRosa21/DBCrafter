@@ -101,22 +101,22 @@
     </style>
 </head>
 <body>
-  <h1>Upload de Arquivo</h1>
+  <h1>File upload</h1>
     <form action="/process" method="POST" enctype="multipart/form-data">
         <div class="upload-container">
             <label for="file-upload" class="custom-file-upload">
-                Clique para selecionar um arquivo
+                Click to select file
             </label>
             <input type="file" id="file-upload" name="file-upload" accept=".xlsx,.xls,.csv">
             <br><br>
-            <label for="table-name">Digite o Nome da Tabela:</label>
+            <label for="table-name">Enter the name of the table</label>
             <div class="field-group">
                 <input type="text" id="table-name" name="table-name" placeholder="Exemplo: clientes">
-                <select class="escolha" id="archive_type">
-                    <option value="" disabled selected>Tipo de Arquivo </option>
-                    <option value="1">Excel</option>
-                    <option value="2">Power BI</option>
-                </select>
+                <select class="escolha" id="archive_type" name="archive_type" required>
+                    <option value="" disabled selected>File Type</option>
+                    <option value="excel">Excel</option>
+                    <option value="csv">CSV</option>
+                </select>                
             </div>
         </div>
         <center><button type="submit">Enviar</button></center>
