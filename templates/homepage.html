@@ -43,11 +43,10 @@
             transform: scale(1.05);
         }
 
-        input[type="text"] {
+        input[type="text"], .escolha {
             width: 70%;
             max-width: 400px;
             padding: 10px;
-            margin-top: 10px;
             margin-bottom: 20px;
             background-color: #1e1e1e;
             border: 1px solid #333333;
@@ -58,10 +57,18 @@
             transition: border-color 0.3s, box-shadow 0.3s;
         }
 
-        input[type="text"]:focus {
+        input[type="text"]:focus, .escolha:focus {
             border-color: #00d1b2;
             box-shadow: 0 4px 15px rgba(175, 2, 223, 0.7);
             outline: none;
+        }
+
+        .field-group {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px; /* Espaço entre os elementos */
+            margin-bottom: 20px;
         }
 
         button {
@@ -80,6 +87,10 @@
             background-color: #6902a0;
         }
 
+        button:active {
+            transform: scale(0.95);
+        }
+
         h1 {
             margin-bottom: 10px;
         }
@@ -90,18 +101,25 @@
     </style>
 </head>
 <body>
-    <h1>Upload de Arquivo</h1>
+  <h1>Upload de Arquivo</h1>
     <form action="/process" method="POST" enctype="multipart/form-data">
         <div class="upload-container">
             <label for="file-upload" class="custom-file-upload">
                 Clique para selecionar um arquivo
             </label>
-            <input type="file" id="file-upload" name="file-upload">
-            <br><br><br>
+            <input type="file" id="file-upload" name="file-upload" accept=".xlsx,.xls,.csv">
+            <br><br>
             <label for="table-name">Digite o Nome da Tabela:</label>
-            <input type="text" id="table-name" name="table-name" placeholder="Exemplo: clientes">
+            <div class="field-group">
+                <input type="text" id="table-name" name="table-name" placeholder="Exemplo: clientes">
+                <select class="escolha" id="archive_type">
+                    <option value="" disabled selected>Tipo de Arquivo </option>
+                    <option value="1">Excel</option>
+                    <option value="2">Power BI</option>
+                </select>
+            </div>
         </div>
-       <center><button type="submit">Enviar</button></center>
+        <center><button type="submit">Enviar</button></center>
     </form>
 </body>
 </html>
