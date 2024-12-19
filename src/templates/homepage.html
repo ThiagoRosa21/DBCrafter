@@ -73,6 +73,7 @@
 
         button {
             margin-top: 20px;
+            font-size: 20px;
             padding: 10px 20px;
             background-color: rgba(175, 2, 223, 0.7);
             border: none;
@@ -110,13 +111,20 @@
             <input type="file" id="file-upload" name="file-upload" accept=".xlsx,.xls,.csv">
             <br><br>
             <label for="table-name">Enter the name of the table</label>
+            <br><br>
             <div class="field-group">
-                <input type="text" id="table-name" name="table-name" placeholder="Exemplo: clientes">
                 <select class="escolha" id="archive_type" name="archive_type" required>
                     <option value="" disabled selected>File Type</option>
                     <option value="excel">Excel</option>
                     <option value="csv">CSV</option>
-                </select>                
+                </select>     
+                <input type="text" id="table-name" name="table-name" placeholder="Table Name">    
+                <select name="limit" id="limit" class="escolha">
+                    <option value=>Number of lines</option>
+                    <option value=10>10 line</option>
+                    <option value=100>100 line</option>
+                    <option value=1000>1000 line</option>
+                </select>       
             </div>
         </div>
         <center><button type="submit">Invite</button></center>

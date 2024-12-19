@@ -5,7 +5,7 @@ import os
 
 # Route for the homepage
 @app.route("/")
-def homepage():
+def homepage_view():
     return render_template("homepage.html")
 
 # Route to process the uploaded file and generate SQL INSERT statements
@@ -14,6 +14,7 @@ def invite_archive():
     # Retrieve the uploaded file, table name, and file type from the request
     file = request.files.get('file-upload')
     table = request.form.get('table-name')
+    limit = request.form.get('limit')
     archive_type = request.form.get('archive_type')  # Retrieve the file type from the select input
     
     # Check if a file was uploaded
@@ -27,6 +28,12 @@ def invite_archive():
     # Check if a file type was selected
     if not archive_type:
         return "File type is required."
+    
+    # Convert limit to integer (if provided)
+    try:
+        limit = int(limit) if limit else None
+    except ValueError:
+        return "Invalid limit value. Please provide a numeric value."
 
     try:
         # Read the file based on the selected type
@@ -40,6 +47,10 @@ def invite_archive():
         # Return an error message if the file cannot be processed
         return f"Error processing the file: {str(e)}"
 
+    # Apply limit if provided
+    if limit:
+        df = df.head(limit)
+    
     # List to store the generated SQL INSERT statements
     inserts = []
 
@@ -57,7 +68,6 @@ def invite_archive():
                 # Replace NaN values with NULL for SQL
                 values.append("NULL")
             else:
-                
                 values.append(str(value))
 
         # Create the SQL INSERT statement for the current row
@@ -71,7 +81,7 @@ def invite_archive():
 
     # Verify that the file was created
     if not os.path.exists(output_file):
-        return "Erro: O arquivo de saída não foi gerado."
+        return "Error: The output file was not generated."
 
     # Send the generated SQL file as a downloadable response
     return send_file(
