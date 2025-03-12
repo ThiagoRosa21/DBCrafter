@@ -2,3 +2,5 @@ __pycache__/
 *.pyc
 .env
 .git
+Dockerfile
+docker-compose.yml
