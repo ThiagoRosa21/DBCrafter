@@ -1,3 +1,6 @@
+Here is your **updated `README.md`** in **English** with all improvements in a **single code block**. 🚀  
+
+
 <div align="center"><h1> INSERT BUILDER 🚀 </h1></div>
 
 <div align="center">
@@ -5,80 +8,126 @@
     <img src="https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=fff" alt="Python Badge" width="100">
     <img src="https://img.shields.io/badge/Flask-000000?logo=flask&logoColor=fff" alt="Flask Badge" width="100">
     <img src="https://img.shields.io/badge/Pandas-150458?logo=pandas&logoColor=fff" alt="Pandas Badge" width="100">
+    <img src="https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=fff" alt="Docker Badge" width="100">
   </a>
 </div>
 
-**A lightweight web application to generate SQL `INSERT` commands from a CSV file. Users can upload a file, specify the table name, and download a script with the generated SQL commands. This project is ideal for automating data integration into relational databases.**
+**Insert Builder is a lightweight web application that generates SQL `INSERT` statements from CSV files. Users can upload a file, specify the table name, and download an SQL script with the generated commands.**  
 
 ---
 
-## Features
-- 📄 **CSV Upload**: Upload a CSV file containing data to be inserted into a database.
-- 📝 **Dynamic Table Selection**: Specify the name of the database table where data will be inserted.
-- ⚡ **SQL Script Generation**: Automatically generates SQL `INSERT` statements based on the uploaded file and table name.
-- 📥 **File Download**: Downloads the SQL script directly to your computer.
+## 🌟 Features
+- 📄 **CSV Upload**: Upload a CSV file containing data for database insertion.
+- 📝 **Table Name Selection**: Users can define the target database table.
+- ⚡ **Automatic SQL Generation**: Creates `INSERT INTO` statements based on the uploaded file.
+- 📥 **Download SQL Script**: Users can download the `.sql` file for database import.
 
 ---
 
-## Technologies Used 💻
-- **Python**: The core language for backend development.
-- **Flask**: A micro web framework for handling routes and HTTP requests.
+## 🛠 Technologies Used
+- **Python**: Core language for backend development.
+- **Flask**: Micro web framework for handling routes and HTTP requests.
 - **Pandas**: Used for reading and processing CSV files.
-- **HTML & CSS**: For building the web interface.
+- **HTML & CSS**: Frontend user interface.
+- **Docker**: For easy application deployment.
 
 ---
 
-## Getting Started
+## 🚀 Getting Started
 
-### Install Dependencies
-Run the following command to install Flask and Pandas in your environment:
+### 🔹 Install Dependencies
+If running locally (without Docker), install dependencies manually:
 ```bash
 pip install flask pandas
 ```
-# Clone the Repository
+
+### 🔹 Clone the Repository
 ```bash
-git clone https://github.com/ThiagoRosa21/insert-builder
-cd insert-builder
+git clone https://github.com/ThiagoRosa21/Insert-Builder
+cd Insert-Builder
 ```
-## Run the Application
-### Start the Flask application:
+
+---
+
+## 🏃 Running the Application
+
+### **🔹 Running Locally (Without Docker)**
 ```bash
-python main.py
+python src/main.py
 ```
-## Access the Application
-### Open your browser and navigate to:
+🔗 **Access the application in your browser:**  
 ```bash
 http://127.0.0.1:5000/
 ```
-# Usage
-- Upload a CSV file via the web interface.
-- Enter the name of the database table.
-- Click Enviar to generate the SQL script.
-- Download the generated inserts.sql file.
 
-# File Structure
+---
+
+## 🐳 Running with Docker
+
+### 🔹 **Build the Docker Image**
 ```bash
-Insert-Builder/
-├── src
-  ├── __Pycache__
-  ├── Templates
-    ├── homepage.html       # HTML template for the user interface
-  ├── main.py             # Entry point for the Flask application
-  ├── views.py            # Contains routes and business logic
+docker build -t insert-builder .
 ```
 
-# Example Workflow
-Input: A CSV file with the following structure:
+### 🔹 **Run the Docker Container**
 ```bash
+docker run -d -p 5000:5000 --name insert-builder-container insert-builder
+```
+
+🔗 **Access the application in your browser:**  
+```bash
+http://localhost:5000/
+```
+
+### 🔹 **Stop and Remove the Container**
+```bash
+docker stop insert-builder-container
+docker rm insert-builder-container
+```
+
+---
+
+## 📂 Project Structure
+```bash
+Insert-Builder/
+├── src/
+│   ├── __pycache__/               # Python cache files
+│   ├── templates/                 # HTML templates
+│   │   ├── homepage.html          # User interface template
+│   ├── main.py                    # Flask main application file
+│   ├── views.py                    # Route logic
+│   ├── requirements.txt            # Project dependencies
+├── Dockerfile                      # Docker configuration
+├── docker-compose.yml               # Docker Compose file
+├── README.md                        # Project documentation
+```
+
+---
+
+## 📌 Example Usage
+📂 **Input (CSV)**
+```csv
 id,name,email
 1,John Doe,john.doe@example.com
 2,Jane Doe,jane.doe@example.com
 ```
-### Output: A SQL script (inserts.sql) with:
-```bash
+
+📜 **Output (SQL)**
+```sql
 INSERT INTO clients (id, name, email) VALUES ('1', 'John Doe', 'john.doe@example.com');
 INSERT INTO clients (id, name, email) VALUES ('2', 'Jane Doe', 'jane.doe@example.com');
 ```
-# Contributing
-Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change.
+
+---
+
+## 🤝 Contributing
+Pull requests are welcome! Please open an issue first to discuss any major changes.
+
+---
+
+## 📝 License
+This project is licensed under the **MIT License**.  
+📜 See the **LICENSE** file for more details.
+
+---
 
