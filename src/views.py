@@ -66,7 +66,7 @@ def invite_archive():
     create_query = f"CREATE TABLE IF NOT EXISTS {table} ({', '.join(columns_def)});"
     cursor.execute(create_query)
 
-    # Inserção no banco
+ 
     df.to_sql(table, conn, if_exists="append", index=False)
 
     conn.commit()
