@@ -17,11 +17,11 @@
 ---
 
 ## 🌟 Features
-- 📄 **CSV Upload**: Upload a CSV file containing data for database insertion.
-- 📝 **Table Name Selection**: Users can define the target database table.
-- ⚡ **Automatic SQL Generation**: Creates `INSERT INTO` statements based on the uploaded file.
-- 📥 **Download SQL Script**: Users can download the `.sql` file for database import.
-
+- 📄 CSV, Excel & JSON Upload: Upload '.csv', '.xlsx' or '.json' files with the data to enter into the database.
+- 📝 **Table Name Selection**: User defines the name of the destination table.
+- ⚡ Automatic SQL Generation: Automatically creates 'INSERT INTO' commands based on the file.
+- 💾 SQLite Integration: Inserts data directly into a local 'SQLite' database ('dados.db').
+- 📥 Download SQL Script: Generates a '.sql' file with the insert commands to import into other databases.
 ---
 
 ## 🛠 Technologies Used
@@ -30,8 +30,16 @@
 - **Pandas**: Used for reading and processing CSV files.
 - **HTML & CSS**: Frontend user interface.
 - **Docker**: For easy application deployment.
-
+- SQLite3: Lightweight relational database used to store data locally.
+  
 ---
+
+## 🗃 Local Database (SQLite)
+In addition to generating the 'INSERT' commands, the data is also automatically entered into the local 'dados.db' database.
+This database can be accessed with any SQLite viewer (e.g., DB Browser for SQLite).
+
+**Location:**
+'src/dados.db'
 
 ## 🚀 Getting Started
 
@@ -96,7 +104,6 @@ Insert-Builder/
 │   │   ├── homepage.html          # User interface template
 │   ├── main.py                    # Flask main application file
 │   ├── views.py                    # Route logic
-│   ├── requirements.txt            # Project dependencies
 ├── Dockerfile                      # Docker configuration
 ├── docker-compose.yml               # Docker Compose file
 ├── README.md                        # Project documentation
@@ -105,11 +112,20 @@ Insert-Builder/
 ---
 
 ## 📌 Example Usage
-📂 **Input (CSV)**
-```csv
+📂 **Input (CSV, Excel, JSON)**
+<br>
+csv
+```
 id,name,email
 1,John Doe,john.doe@example.com
 2,Jane Doe,jane.doe@example.com
+```
+json
+```
+[
+  {"id": 1, "name": "Alice", "email": "alice@example.com"},
+  {"id": 2, "name": "Bob", "email": "bob@example.com"}
+]
 ```
 
 📜 **Output (SQL)**
