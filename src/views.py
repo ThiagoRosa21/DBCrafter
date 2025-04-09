@@ -44,23 +44,12 @@ def invite_archive():
     if limit:
         df = df.head(limit)
     
-<<<<<<< HEAD
     df.columns = [str(col).strip().replace(" ", "_") for col in df.columns]
 
     conn = sqlite3.connect("dados.db")
     cursor = conn.cursor()
 
-   
-=======
-    
-    df.columns = [str(col).strip().replace(" ", "_") for col in df.columns]
 
-    
-    conn = sqlite3.connect("dados.db")
-    cursor = conn.cursor()
-
-    
->>>>>>> 8ab53a3dec1e7ad41481510a5b4f6194c38283d7
     columns_def = []
     for col in df.columns:
         sample_value = df[col].dropna().iloc[0] if not df[col].dropna().empty else ''
@@ -72,11 +61,10 @@ def invite_archive():
             col_type = "TEXT"
         columns_def.append(f"{col} {col_type}")
 
-<<<<<<< HEAD
-    # Safe table creation
+   
     cursor.execute(f"CREATE TABLE IF NOT EXISTS {table} ({', '.join(columns_def)});")
 
-    # Insert using parameterized queries
+  
     placeholders = ", ".join(["?"] * len(df.columns))
     insert_sql = f"INSERT INTO {table} ({', '.join(df.columns)}) VALUES ({placeholders})"
 
@@ -85,55 +73,26 @@ def invite_archive():
 
     conn.commit()
 
-    
     inserts = []
     for _, row in df.iterrows():
         values = []
         for value in row:
             if pd.isnull(value):
-=======
-    create_query = f"CREATE TABLE IF NOT EXISTS {table} ({', '.join(columns_def)});"
-    cursor.execute(create_query)
-
- 
-    df.to_sql(table, conn, if_exists="append", index=False)
-
-    conn.commit()
-    conn.close()
-
-    
-    inserts = []
-    for _, row in df.iterrows():
-        values = []
-        for value in row:
-            if isinstance(value, str):
-                value = value.replace("'", "''")
-                values.append(f"'{value}'")
-            elif pd.isnull(value):
->>>>>>> 8ab53a3dec1e7ad41481510a5b4f6194c38283d7
                 values.append("NULL")
             elif isinstance(value, str):
                 escaped = value.replace("'", "''")
                 values.append(f"'{escaped}'")
             else:
                 values.append(str(value))
-<<<<<<< HEAD
         insert_line = f"INSERT INTO {table} ({', '.join(df.columns)}) VALUES ({', '.join(values)});"
         inserts.append(insert_line)
-=======
-        insert = f"INSERT INTO {table} ({', '.join(df.columns)}) VALUES ({', '.join(values)});"
-        inserts.append(insert)
->>>>>>> 8ab53a3dec1e7ad41481510a5b4f6194c38283d7
 
     output_file = os.path.join(os.path.dirname(__file__), 'inserts.sql')
     with open(output_file, 'w', encoding="utf-8") as f:
         f.write("\n".join(inserts))
 
-<<<<<<< HEAD
     conn.close()
 
-=======
->>>>>>> 8ab53a3dec1e7ad41481510a5b4f6194c38283d7
     if not os.path.exists(output_file):
         return "Error: The output file was not generated."
 
