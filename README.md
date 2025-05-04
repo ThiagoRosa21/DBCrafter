@@ -12,7 +12,7 @@
   </a>
 </div>
 
-**Insert Builder is a lightweight web application that generates SQL `INSERT` statements from CSV files. Users can upload a file, specify the table name, and download an SQL script with the generated commands.**  
+**DBCrafter is a lightweight web application that generates SQL `INSERT` statements from CSV files. Users can upload a file, specify the table name, and download an SQL script with the generated commands.**  
 
 ---
 
@@ -51,8 +51,8 @@ pip install flask pandas
 
 ### 🔹 Clone the Repository
 ```bash
-git clone https://github.com/ThiagoRosa21/Insert-Builder
-cd Insert-Builder
+git clone https://github.com/ThiagoRosa21/DBCrafter
+cd DBCrafter
 ```
 
 ---
@@ -79,7 +79,7 @@ docker build -t insert-builder .
 
 ### 🔹 **Run the Docker Container**
 ```bash
-docker run -d -p 5000:5000 --name insert-builder-container insert-builder
+docker run -d -p 5000:5000 --name DBCrafter-container DBCrafter
 ```
 
 🔗 **Access the application in your browser:**  
@@ -89,15 +89,15 @@ http://localhost:5000/
 
 ### 🔹 **Stop and Remove the Container**
 ```bash
-docker stop insert-builder-container
-docker rm insert-builder-container
+docker stop DBCrafter-container
+docker rm DBCrafter-container
 ```
 
 ---
 
 ## 📂 Project Structure
 ```bash
-Insert-Builder/
+DBCrafter/
 ├── src/
 │   ├── __pycache__/               # Python cache files
 │   ├── templates/                 # HTML templates
