@@ -1,11 +1,18 @@
-version: "3.8"
-
 services:
-  DBCrafter:
+  dbcrafter:
     build: .
     ports:
-      - "5000:5000"
-    volumes:
-      - .:/app
+      - "127.0.0.1:5000:5000"
     environment:
-      - FLASK_ENV=development
+      PORT: "5000"
+    read_only: true
+    tmpfs:
+      - /tmp:size=16m,mode=1777
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    mem_limit: 512m
+    cpus: 1.0
+    pids_limit: 64
+    restart: unless-stopped

@@ -1,135 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload de Arquivo</title>
-    <style>
-        body {
-            background-color: #121212;
-            color: #ffffff;
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-        }
-
-        .upload-container {
-            text-align: center;
-        }
-
-        input[type="file"] {
-            display: none;
-        }
-
-        .custom-file-upload {
-            display: inline-block;
-            padding: 20px;
-            background-color: #1e1e1e;
-            color: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.2s;
-        }
-
-        .custom-file-upload:hover {
-            background-color: #333333;
-            transform: scale(1.05);
-        }
-
-        input[type="text"], .escolha {
-            width: 70%;
-            max-width: 400px;
-            padding: 10px;
-            margin-bottom: 20px;
-            background-color: #1e1e1e;
-            border: 1px solid #333333;
-            border-radius: 5px;
-            color: #ffffff;
-            font-size: 16px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-            transition: border-color 0.3s, box-shadow 0.3s;
-        }
-
-        input[type="text"]:focus, .escolha:focus {
-            border-color: #00d1b2;
-            box-shadow: 0 4px 15px rgba(175, 2, 223, 0.7);
-            outline: none;
-        }
-
-        .field-group {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        button {
-            margin-top: 20px;
-            font-size: 20px;
-            padding: 10px 20px;
-            background-color: rgba(175, 2, 223, 0.7);
-            border: none;
-            border-radius: 5px;
-            color: #ffffff;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        button:hover {
-            background-color: #6902a0;
-        }
-
-        button:active {
-            transform: scale(0.95);
-        }
-
-        h1 {
-            margin-bottom: 10px;
-        }
-
-        p {
-            margin-bottom: 20px;
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DBCrafter — arquivos para SQL</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-  <h1>File upload</h1>
-    <form action="/process" method="POST" enctype="multipart/form-data">
-        <div class="upload-container">
-            <label for="file-upload" class="custom-file-upload">
-                Click to select file
-            </label>
-            <input type="file" id="file-upload" name="file-upload" accept=".xlsx,.xls,.csv">
-            <br><br>
-            <label for="table-name">Enter the name of the table</label>
-            <br><br>
-            <div class="field-group">
-                <select class="escolha" id="archive_type" name="archive_type" required>
-                    <option value="" disabled selected>File Type</option>
-                    <option value="excel">Excel</option>
-                    <option value="csv">CSV</option>
-                    <option value="json">JSON</option>
-
-                </select>     
-                <input type="text" id="table-name" name="table-name" placeholder="Table Name">    
-                <select name="limit" id="limit" class="escolha">
-                    <option value=>Number of lines</option>
-                    <option value=10>10 line</option>
-                    <option value=100>100 line</option>
-                    <option value=1000>1000 line</option>
-                </select>       
-            </div>
-        </div>
-        <center><button type="submit">Invite</button></center>
-    </form>
+<main>
+  <header><span class="eyebrow">DADOS PARA SQL</span><h1>DBCrafter</h1>
+    <p>Transforme CSV, Excel ou JSON em comandos INSERT para o seu banco.</p></header>
+  <form action="{{ url_for('web.process') }}" method="post" enctype="multipart/form-data">
+    <label for="file-upload">Arquivo</label>
+    <input type="file" id="file-upload" name="file-upload" accept=".csv,.json,.xlsx,.xls" required aria-describedby="file-help">
+    <p class="hint" id="file-help">Até {{ limits.upload_bytes // 1048576 }} MiB. CSV e JSON em UTF-8. Excel: primeira aba, com cabeçalho na primeira linha.</p>
+    <div class="grid">
+      <div><label for="table-name">Tabela de destino</label>
+        <input id="table-name" name="table-name" placeholder="clientes ou schema.clientes" maxlength="127" required autocapitalize="off" spellcheck="false">
+      </div>
+      <div><label for="dialect">Banco de destino</label>
+        <select id="dialect" name="dialect"><option value="sqlite">SQLite</option><option value="postgresql">PostgreSQL</option><option value="mysql">MySQL</option><option value="oracle">Oracle (19c ou superior)</option></select>
+      </div>
+    </div>
+    <label for="limit">Quantidade de linhas (opcional)</label>
+    <input id="limit" name="limit" type="number" min="1" max="{{ limits.rows }}" placeholder="Todas, até {{ limits.rows }} linhas" aria-describedby="limit-help">
+    <p class="hint" id="limit-help">Quando informado, exporta apenas as primeiras linhas. Máximo de {{ limits.columns }} colunas e {{ limits.cells }} células por conversão.</p>
+    <details><summary>Tipos de dados e opções de CSV</summary>
+      <p>CSV preserva os valores como texto, incluindo zeros à esquerda. JSON e Excel mantêm seus tipos. Para converter uma coluna, informe seu nome normalizado e o tipo desejado.</p>
+      <label for="column-types">Tipos por coluna (JSON opcional)</label>
+      <textarea id="column-types" name="column-types" rows="3" maxlength="8000" spellcheck="false" placeholder='{"id":"integer","valor":"decimal","ativo":"boolean","data":"date"}'></textarea>
+      <p class="hint">Tipos: text, integer, decimal, boolean, date e datetime. Datas: AAAA-MM-DD; data e hora: AAAA-MM-DDTHH:MM:SS. Cabeçalhos ficam em minúsculas, sem acentos, com espaços substituídos por _. Nomes que começam com número recebem c_. Oracle usa nomes em maiúsculas.</p>
+      <div class="grid"><div><label for="delimiter">Separador do CSV</label>
+        <select id="delimiter" name="delimiter"><option value=",">Vírgula</option><option value=";">Ponto e vírgula</option><option value="&#9;">Tabulação</option></select></div>
+        <div><label for="null-marker">Marcador de NULL no CSV</label>
+          <input id="null-marker" name="null-marker" value="\N" maxlength="32" required spellcheck="false"></div>
+      </div>
+      <p class="hint">Campos vazios do CSV continuam como texto vazio. Só o marcador escolhido vira NULL. Oracle não distingue texto vazio de NULL e rejeita essa exportação até você definir o tratamento.</p>
+    </details>
+    <button type="submit">Gerar e baixar SQL</button>
+    <p class="privacy">Os arquivos são processados em memória. A aplicação não guarda os dados enviados nem executa o SQL. A tabela de destino deve existir.</p>
+  </form>
+  <footer>Revise os tipos e os nomes antes de executar o script. Fórmulas XLSX devem ser convertidas em valores. XLS usa os valores armazenados na planilha.</footer>
+</main>
 </body>
 </html>
