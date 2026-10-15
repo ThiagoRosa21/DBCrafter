@@ -1,6 +1,12 @@
-__pycache__/
-*.pyc
-.env
 .git
-Dockerfile
-docker-compose.yml
+.github
+.venv
+__pycache__
+*.py[cod]
+.pytest_cache
+.ruff_cache
+.env*
+*.db
+*.sqlite*
+*.sql
+tests
